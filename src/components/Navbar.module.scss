@@ -1,0 +1,106 @@
+@use '../styles/variables' as *;
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 $spacing-xl;
+  background: $bg-base;
+  border-bottom: 1px solid $border;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  &__brand {
+    font-size: $font-size-xl;
+    font-weight: 800;
+    color: $primary-light;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+
+    span {
+      color: $secondary;
+    }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+  }
+
+  &__link {
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $text-secondary;
+    text-decoration: none;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    transition: color $transition-fast;
+
+    &:hover,
+    &--active {
+      color: $primary-light;
+    }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    color: $text-primary;
+    font-weight: 500;
+    font-size: $font-size-sm;
+  }
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    background: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: white;
+  }
+
+  &__notifBtn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-full;
+    color: $text-secondary;
+    text-decoration: none;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $bg-surface;
+      color: $primary-light;
+    }
+  }
+
+  &__notifBadge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background: $secondary;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border: 2px solid $bg-base;
+  }
+}

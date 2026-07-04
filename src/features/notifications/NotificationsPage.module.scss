@@ -1,0 +1,236 @@
+@use '../../styles/variables' as *;
+
+.page {
+  padding: $spacing-xl 0;
+  max-width: 680px;
+  margin: 0 auto;
+  min-height: calc(100vh - 64px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-xl;
+}
+
+.title {
+  font-size: $font-size-3xl;
+  font-weight: 800;
+  margin-bottom: $spacing-xs;
+
+  span {
+    color: $secondary;
+  }
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $text-muted;
+  margin-top: 2px;
+}
+
+// Skeleton
+.skeletonList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: $border;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}
+
+.skeletonItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $bg-card;
+}
+
+.skeletonDot {
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-full;
+  background: $bg-surface;
+  flex-shrink: 0;
+}
+
+.skeletonContent {
+  flex: 1;
+}
+
+.skeletonLine {
+  height: 12px;
+  background: $bg-surface;
+  border-radius: $radius-sm;
+  margin-bottom: 6px;
+  animation: shimmer 1.5s ease-in-out infinite;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+// Empty state
+.emptyState {
+  text-align: center;
+  padding: $spacing-2xl $spacing-lg;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin-bottom: $spacing-sm;
+    margin-top: $spacing-md;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+.emptyIcon {
+  color: $text-muted;
+  opacity: 0.5;
+}
+
+// Notification list
+.notifList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: $border;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}
+
+.notifItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background: $bg-card;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: $bg-surface;
+  }
+
+  &--unread {
+    background: rgba($primary, 0.03);
+    border-left: 3px solid $primary;
+  }
+}
+
+.notifDot {
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.unreadDot {
+  width: 10px;
+  height: 10px;
+  background: $primary;
+  border-radius: $radius-full;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.notifContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.notifLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.notifText {
+  font-size: $font-size-sm;
+  color: $text-primary;
+  line-height: 1.4;
+  display: block;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.notifTime {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  margin-top: 2px;
+  display: block;
+}
+
+.notifActions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.markReadBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+  border: 1px solid $border;
+  background: transparent;
+  color: $text-muted;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $success;
+    color: $success;
+    background: rgba($success, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// Pagination
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg $spacing-md;
+  background: $bg-card;
+  border-top: 1px solid $border;
+
+  &__info {
+    font-size: $font-size-sm;
+    color: $text-muted;
+  }
+}

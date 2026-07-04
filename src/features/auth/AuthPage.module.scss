@@ -1,0 +1,69 @@
+@use '../../styles/variables' as *;
+
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacing-xl;
+  background: $bg-dark;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+}
+
+.auth-title {
+  font-size: $font-size-2xl;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: $spacing-xs;
+
+  span {
+    color: $secondary;
+  }
+}
+
+.auth-subtitle {
+  font-size: $font-size-sm;
+  color: $text-muted;
+  margin-bottom: $spacing-xl;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.auth-error {
+  background: rgba($error, 0.1);
+  border: 1px solid rgba($error, 0.3);
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+  color: $error;
+  font-size: $font-size-sm;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: $spacing-lg;
+  font-size: $font-size-sm;
+  color: $text-muted;
+
+  a {
+    color: $primary-light;
+    font-weight: 600;
+  }
+}

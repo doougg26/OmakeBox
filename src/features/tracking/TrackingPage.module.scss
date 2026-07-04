@@ -1,0 +1,416 @@
+@use '../../styles/variables' as *;
+
+.trackingPage {
+  padding: $spacing-xl 0;
+}
+
+.header {
+  margin-bottom: $spacing-xl;
+}
+
+.title {
+  font-size: $font-size-3xl;
+  font-weight: 700;
+  margin-bottom: $spacing-xs;
+
+  span {
+    color: $secondary;
+  }
+}
+
+.subtitle {
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.trackList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.trackCard {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  transition: all $transition-base;
+  text-decoration: none;
+
+  &:hover {
+    border-color: $primary;
+    transform: translateX(4px);
+  }
+}
+
+.trackImage {
+  width: 72px;
+  height: 102px;
+  object-fit: cover;
+  border-radius: $radius-md;
+  background: $bg-base;
+  flex-shrink: 0;
+}
+
+.trackInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.trackTitle {
+  font-size: $font-size-base;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-xs;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackMeta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  border-radius: $radius-full;
+
+  &--assistindo {
+    background: rgba($success, 0.15);
+    color: $success;
+  }
+
+  &--completo {
+    background: rgba($primary, 0.15);
+    color: $primary-light;
+  }
+
+  &--planejo_assistir {
+    background: rgba($text-muted, 0.15);
+    color: $text-muted;
+  }
+
+  &--abandonado {
+    background: rgba($error, 0.15);
+    color: $error;
+  }
+
+  &--em_pausa {
+    background: rgba($warning, 0.15);
+    color: $warning;
+  }
+}
+
+.progress {
+  font-size: $font-size-xs;
+  color: $text-muted;
+
+  strong {
+    color: $text-secondary;
+  }
+}
+
+.rating {
+  font-size: $font-size-sm;
+  color: $warning;
+  font-weight: 600;
+}
+
+.emptyState {
+  text-align: center;
+  padding: $spacing-2xl;
+
+  p {
+    color: $text-muted;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.episodes {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.progressBar {
+  margin-top: $spacing-sm;
+  width: 100%;
+  max-width: 280px;
+
+  &__bg {
+    width: 100%;
+    height: 6px;
+    background: $bg-base;
+    border-radius: $radius-full;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    border-radius: $radius-full;
+    transition: width 0.4s ease;
+    background: linear-gradient(90deg, $primary, $primary-light);
+
+    &--complete {
+      background: linear-gradient(90deg, #4caf50, #66bb6a);
+    }
+
+    &--partial {
+      background: linear-gradient(90deg, $primary, $primary-light);
+    }
+
+    &--low {
+      background: linear-gradient(90deg, #ff9800, #ffb74d);
+    }
+  }
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-size-xs;
+    color: $text-muted;
+    margin-top: 2px;
+
+    strong {
+      color: $text-secondary;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $spacing-xs;
+  flex-shrink: 0;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: $font-size-xs;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+
+  &:hover {
+    color: $error;
+    background: rgba($error, 0.1);
+  }
+}
+
+.detailsBtn {
+  display: inline-block;
+  background: none;
+  border: 1px solid $border;
+  color: $text-muted;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 10px;
+  border-radius: $radius-sm;
+  text-decoration: none;
+  text-align: center;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $primary-light;
+    color: $primary-light;
+    background: rgba($primary, 0.08);
+  }
+}
+
+.watchBtn {
+  background: rgba($primary, 0.15);
+  border: 1px solid $primary;
+  color: $primary-light;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  white-space: nowrap;
+  transition: all $transition-fast;
+  min-width: 60px;
+  text-align: center;
+
+  &:hover {
+    background: rgba($primary, 0.25);
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.epEditGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: $bg-surface;
+  border: 1px solid $primary;
+  border-radius: $radius-full;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.epEditBtn {
+  background: none;
+  border: none;
+  color: $primary-light;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 6px;
+  line-height: 1.6;
+  border-radius: $radius-full;
+  transition: background $transition-fast;
+  min-width: 22px;
+  text-align: center;
+
+  &:hover {
+    background: rgba($primary, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.epEditInput {
+  width: 36px;
+  background: none;
+  border: none;
+  color: $text-primary;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  padding: 2px 0;
+
+  /* Remove spinner arrows */
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+
+  &:focus {
+    color: $primary-light;
+  }
+}
+
+.epEditSave {
+  background: $primary;
+  border: none;
+  color: $bg-dark;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 8px;
+  line-height: 1.8;
+  border-radius: $radius-full;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $primary-light;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+}
+
+.statsHero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  padding: $spacing-lg;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+
+  &__item {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: $spacing-sm;
+    text-align: center;
+    border-right: 1px solid $border;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  &__value {
+    font-size: $font-size-2xl;
+    font-weight: 800;
+    color: $primary-light;
+    line-height: 1.1;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+}
+
+.filterBar {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  background: $bg-surface;
+  border: 1px solid $border;
+  border-radius: $radius-full;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $primary-light;
+    color: $primary-light;
+  }
+
+  &--active {
+    background: rgba($primary, 0.15);
+    border-color: $primary;
+    color: $primary-light;
+  }
+}

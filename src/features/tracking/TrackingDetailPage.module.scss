@@ -1,0 +1,487 @@
+@use '../../styles/variables' as *;
+
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+}
+
+.backNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+.backLink {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary-light;
+  }
+}
+
+.animeLink {
+  color: $primary-light;
+  font-size: $font-size-sm;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xl;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mainCol {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+// Hero
+.hero {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  margin-bottom: 0;
+
+  &__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.35);
+  }
+
+  &__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-xl;
+    background: linear-gradient(transparent, rgba(15, 25, 35, 0.95));
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 800;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-md;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    flex-wrap: wrap;
+  }
+}
+
+// Quick Actions
+.quickActions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.watchBtn {
+  background: rgba($primary, 0.15);
+  border: 1px solid $primary;
+  color: $primary-light;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 20px;
+  border-radius: $radius-full;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: rgba($primary, 0.25);
+    transform: scale(1.03);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.communityBtn {
+  display: inline-flex;
+  align-items: center;
+  background: $bg-surface;
+  border: 1px solid $border;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 20px;
+  border-radius: $radius-full;
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $primary-light;
+    color: $primary-light;
+  }
+}
+
+// Sections
+.section {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: 700;
+  margin-bottom: $spacing-md;
+  color: $text-primary;
+}
+
+.sinopse {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  line-height: 1.7;
+}
+
+// Stats Card
+.statsCard {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  position: sticky;
+  top: 80px;
+}
+
+// Progress Circle
+.progressCircleWrapper {
+  display: flex;
+  justify-content: center;
+  margin: $spacing-md 0;
+}
+
+.progressCircle {
+  width: 140px;
+  height: 140px;
+
+  &__bg {
+    stroke: $bg-surface;
+    stroke-width: 8;
+  }
+
+  &__fill {
+    transition: stroke-dashoffset 0.6s ease;
+    stroke-width: 8;
+  }
+
+  &__pct {
+    fill: $text-primary;
+    font-size: 26px;
+    font-weight: 800;
+  }
+
+  &__label {
+    fill: $text-muted;
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+
+// Stats Row
+.statsRow {
+  display: flex;
+  justify-content: space-around;
+  gap: $spacing-sm;
+  padding: $spacing-md 0;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  &__value {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Status
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 14px;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  border-radius: $radius-full;
+  border: 1px solid;
+}
+
+.ratingBadge {
+  font-size: $font-size-sm;
+  font-weight: 700;
+  color: $warning;
+}
+
+// Impression
+.impressionBox {
+  background: $bg-surface;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+
+  &__label {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__text {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    line-height: 1.5;
+    margin-top: $spacing-xs;
+  }
+}
+
+// Dates
+.datesBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: $font-size-xs;
+  color: $text-muted;
+
+  strong {
+    color: $text-secondary;
+  }
+}
+
+// Remove
+.removeBtn {
+  width: 100%;
+  background: none;
+  border: 1px solid rgba($error, 0.3);
+  color: $error;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: $radius-md;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: rgba($error, 0.1);
+    border-color: $error;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Timeline Section
+.timelineSection {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+}
+
+.timelineTitle {
+  font-size: $font-size-xl;
+  font-weight: 700;
+  margin-bottom: $spacing-lg;
+  color: $text-primary;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  span {
+    font-size: $font-size-sm;
+    color: $text-muted;
+    font-weight: 400;
+  }
+}
+
+.timelineEmpty {
+  text-align: center;
+  padding: $spacing-2xl;
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+// Progress bar segments
+.timelineProgress {
+  &__bar {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    padding-bottom: $spacing-xs;
+  }
+
+  &__seg {
+    min-width: 8px;
+    height: 16px;
+    background: $bg-surface;
+    border-radius: 2px;
+    flex-shrink: 0;
+    transition: background $transition-fast;
+
+    &--watched {
+      background: $primary;
+    }
+  }
+}
+
+// Timeline date groups
+.timelineDateGroup {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timelineDateHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 12px;
+    bottom: -24px;
+    width: 2px;
+    background: $border;
+  }
+}
+
+.timelineDateDot {
+  position: absolute;
+  left: -26px;
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-full;
+  background: $primary-light;
+  border: 2px solid $bg-card;
+  z-index: 1;
+}
+
+.timelineDateLabel {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $text-primary;
+  text-transform: capitalize;
+}
+
+.timelineDateCount {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.timelineEps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-lg;
+}
+
+.timelineEp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: $bg-surface;
+  border: 1px solid $border;
+  border-radius: $radius-full;
+  padding: 4px 12px;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $primary-light;
+  }
+
+  &__num {
+    font-size: $font-size-xs;
+    font-weight: 700;
+    color: $primary-light;
+  }
+
+  &__time {
+    font-size: $font-size-xs;
+    color: $text-muted;
+  }
+}
+
+.timelineSummary {
+  text-align: center;
+  padding: $spacing-md;
+  background: $bg-surface;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+
+  strong {
+    color: $primary-light;
+  }
+}
+
+.notFound {
+  text-align: center;
+  padding: $spacing-2xl;
+  color: $text-muted;
+}
