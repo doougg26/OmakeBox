@@ -1,29 +1,39 @@
-// Cores da Identidade Visual
-$primary: #1e7682;
-$primary-light: #2a9aa8;
-$primary-dark: #15535c;
+// ═══════════════════════════════════════════════════
+// Tema Dinâmico via CSS Custom Properties
+// As cores são definidas em [data-theme] no global.scss
+// ═══════════════════════════════════════════════════
 
-$secondary: #d46357;
-$secondary-light: #e07d73;
-$secondary-dark: #b84d42;
+// Cores da Identidade Visual (fixas, independente do tema)
+$primary: var(--primary);
+$primary-light: var(--primary-light);
+$primary-dark: var(--primary-dark);
 
-// Neutros
-$bg-dark: #0f1923;
-$bg-base: #1a2a3a;
-$bg-surface: #233344;
-$bg-card: #2a3d4f;
+$secondary: var(--secondary);
+$secondary-light: var(--secondary-light);
+$secondary-dark: var(--secondary-dark);
 
-$text-primary: #e8edf2;
-$text-secondary: #9aafc4;
-$text-muted: #6b8398;
+// Neutros (dinâmicos por tema)
+$bg-dark: var(--bg-dark);
+$bg-base: var(--bg-base);
+$bg-surface: var(--bg-surface);
+$bg-card: var(--bg-card);
 
-$border: #2d4155;
-$border-light: #3a5168;
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-muted: var(--text-muted);
 
-// Feedback
+$border: var(--border);
+$border-light: var(--border-light);
+
+// Feedback (fixos)
 $success: #4caf50;
 $warning: #ff9800;
 $error: #f44336;
+
+// RGB variants para rgba() em SCSS
+$primary-rgb: var(--primary-rgb);
+$primary-light-rgb: var(--primary-light-rgb);
+$secondary-rgb: var(--secondary-rgb);
 
 // Tipografia
 $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -61,7 +71,7 @@ $transition-fast: 150ms ease;
 $transition-base: 250ms ease;
 $transition-slow: 350ms ease;
 
-// Shadows
-$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+// Shadows (dinâmicos por tema)
+$shadow-sm: var(--shadow-sm);
+$shadow-md: var(--shadow-md);
+$shadow-lg: var(--shadow-lg);

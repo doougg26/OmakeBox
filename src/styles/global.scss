@@ -1,5 +1,81 @@
 @use 'variables' as *;
 
+/* ═══════════════════════════════════════════════════
+   Tema Escuro (padrão)
+   ═══════════════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  --primary: #1e7682;
+  --primary-light: #2a9aa8;
+  --primary-dark: #15535c;
+  --primary-rgb: 30, 118, 130;
+  --primary-light-rgb: 42, 154, 168;
+
+  --secondary: #d46357;
+  --secondary-light: #e07d73;
+  --secondary-dark: #b84d42;
+  --secondary-rgb: 212, 99, 87;
+
+  --bg-dark: #0f1923;
+  --bg-base: #1a2a3a;
+  --bg-surface: #233344;
+  --bg-card: #2a3d4f;
+
+  --text-primary: #e8edf2;
+  --text-secondary: #9aafc4;
+  --text-muted: #6b8398;
+
+  --border: #2d4155;
+  --border-light: #3a5168;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --toast-bg: rgba(42, 61, 79, 0.95);
+  --toast-border: rgba(45, 65, 85, 0.8);
+  --toast-text: #e8edf2;
+}
+
+/* ═══════════════════════════════════════════════════
+   Tema Claro
+   ═══════════════════════════════════════════════════ */
+[data-theme="light"] {
+  --primary: #1e7682;
+  --primary-light: #2a9aa8;
+  --primary-dark: #15535c;
+  --primary-rgb: 30, 118, 130;
+  --primary-light-rgb: 42, 154, 168;
+
+  --secondary: #d46357;
+  --secondary-light: #e07d73;
+  --secondary-dark: #b84d42;
+  --secondary-rgb: 212, 99, 87;
+
+  --bg-dark: #f4f6f8;
+  --bg-base: #ffffff;
+  --bg-surface: #f0f2f5;
+  --bg-card: #ffffff;
+
+  --text-primary: #1a2332;
+  --text-secondary: #4a5a6e;
+  --text-muted: #8a9aa8;
+
+  --border: #d0d8e0;
+  --border-light: #e0e6ed;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  --toast-bg: rgba(255, 255, 255, 0.95);
+  --toast-border: rgba(208, 216, 224, 0.8);
+  --toast-text: #1a2332;
+}
+
+/* ═══════════════════════════════════════════════════
+   Reset & Base
+   ═══════════════════════════════════════════════════ */
 *,
 *::before,
 *::after {
@@ -11,6 +87,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  transition: background-color 0.3s ease;
 }
 
 body {
@@ -21,6 +98,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color $transition-base, color $transition-base;
 }
 
 a {
@@ -38,7 +116,7 @@ button {
   font-family: $font-family;
 }
 
-input, textarea {
+input, textarea, select {
   font-family: $font-family;
 }
 
@@ -47,23 +125,43 @@ img {
   height: auto;
 }
 
+/* ═══════════════════════════════════════════════════
+   Layout Utilities
+   ═══════════════════════════════════════════════════ */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 $spacing-md;
+
+  @media (max-width: $breakpoint-md) {
+    padding: 0 $spacing-sm;
+  }
 }
 
 .page {
   min-height: calc(100vh - 64px);
   padding: $spacing-xl 0;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-md 0;
+    min-height: calc(100vh - 56px);
+  }
 }
 
+.page-enter {
+  animation: pageFadeIn 0.3s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════
+   Card
+   ═══════════════════════════════════════════════════ */
 .card {
   background: $bg-card;
   border: 1px solid $border;
   border-radius: $radius-lg;
   padding: $spacing-lg;
-  transition: border-color $transition-base, box-shadow $transition-base;
+  transition: border-color $transition-base, box-shadow $transition-base,
+              background-color $transition-base;
 
   &:hover {
     border-color: $border-light;
@@ -71,6 +169,9 @@ img {
   }
 }
 
+/* ═══════════════════════════════════════════════════
+   Buttons
+   ═══════════════════════════════════════════════════ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -105,6 +206,17 @@ img {
     }
   }
 
+  &-ghost {
+    background: transparent;
+    color: $text-secondary;
+    border: none;
+
+    &:hover {
+      color: $text-primary;
+      background: $bg-surface;
+    }
+  }
+
   &-danger {
     background: $error;
     color: white;
@@ -119,8 +231,16 @@ img {
     cursor: not-allowed;
     transform: none;
   }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-xs;
+  }
 }
 
+/* ═══════════════════════════════════════════════════
+   Form Elements
+   ═══════════════════════════════════════════════════ */
 .input {
   width: 100%;
   padding: $spacing-sm $spacing-md;
@@ -129,7 +249,7 @@ img {
   border-radius: $radius-md;
   color: $text-primary;
   font-size: $font-size-base;
-  transition: border-color $transition-fast;
+  transition: border-color $transition-fast, background-color $transition-fast;
 
   &:focus {
     outline: none;
@@ -139,6 +259,10 @@ img {
 
   &::placeholder {
     color: $text-muted;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: 16px; /* Prevent iOS zoom on focus */
   }
 }
 
@@ -156,6 +280,9 @@ img {
   margin-top: $spacing-xs;
 }
 
+/* ═══════════════════════════════════════════════════
+   Loading / Spinner
+   ═══════════════════════════════════════════════════ */
 .loading {
   display: flex;
   align-items: center;
@@ -177,7 +304,9 @@ img {
   to { transform: rotate(360deg); }
 }
 
-// Custom scrollbar for dark theme
+/* ═══════════════════════════════════════════════════
+   Scrollbar
+   ═══════════════════════════════════════════════════ */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -196,41 +325,52 @@ img {
   }
 }
 
-// Firefox scrollbar
 * {
   scrollbar-width: thin;
   scrollbar-color: $border $bg-dark;
 }
 
-// Page fade-in animation
+/* ═══════════════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════════════ */
 @keyframes pageFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.page-enter {
-  animation: pageFadeIn 0.3s ease-out;
+@keyframes toastEnter {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-// Focus visible for accessibility
+@keyframes toastExit {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(30px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════
+   Accessibility
+   ═══════════════════════════════════════════════════ */
 :focus-visible {
   outline: 2px solid $primary-light;
   outline-offset: 2px;
 }
 
-// Selection color
 ::selection {
   background: rgba($primary-light, 0.3);
   color: $text-primary;
 }
 
-// Remove animations for reduced motion preference
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -241,25 +381,23 @@ img {
   }
 }
 
-// Toast animations
-@keyframes toastEnter {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+/* ═══════════════════════════════════════════════════
+   Responsive Helpers
+   ═══════════════════════════════════════════════════ */
+.hide-mobile {
+  @media (max-width: $breakpoint-md) {
+    display: none !important;
   }
 }
 
-@keyframes toastExit {
-  from {
-    opacity: 1;
-    transform: translateX(0);
+.hide-desktop {
+  @media (min-width: $breakpoint-md + 1) {
+    display: none !important;
   }
-  to {
-    opacity: 0;
-    transform: translateX(30px);
+}
+
+.text-center-mobile {
+  @media (max-width: $breakpoint-sm) {
+    text-align: center;
   }
 }

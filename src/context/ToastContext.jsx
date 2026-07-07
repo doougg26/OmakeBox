@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
+import Icon from '../components/Icon';
 
 const ToastContext = createContext(null);
 
@@ -73,7 +74,9 @@ function ToastContainer({ toasts, onRemove }) {
       maxWidth: '380px',
       width: '100%',
       pointerEvents: 'none',
-    }}>
+    }}
+    className="toast-container"
+    >
       {toasts.map((toast) => (
         <ToastItem key={toast.id} toast={toast} onRemove={onRemove} />
       ))}
@@ -85,25 +88,25 @@ const TYPE_STYLES = {
   success: {
     bg: 'rgba(76, 175, 80, 0.12)',
     border: 'rgba(76, 175, 80, 0.4)',
-    icon: '✓',
+    icon: 'checkCircle',
     color: '#66bb6a',
   },
   error: {
     bg: 'rgba(244, 67, 54, 0.12)',
     border: 'rgba(244, 67, 54, 0.4)',
-    icon: '✕',
+    icon: 'alertCircle',
     color: '#ef5350',
   },
   info: {
     bg: 'rgba(30, 118, 130, 0.12)',
     border: 'rgba(30, 118, 130, 0.4)',
-    icon: 'ℹ',
+    icon: 'info',
     color: '#2a9aa8',
   },
   warning: {
     bg: 'rgba(255, 152, 0, 0.12)',
     border: 'rgba(255, 152, 0, 0.4)',
-    icon: '⚠',
+    icon: 'alertTriangle',
     color: '#ffb74d',
   },
 };
@@ -119,8 +122,8 @@ function ToastItem({ toast, onRemove }) {
   if (toast.type === 'confirm') {
     return (
       <div style={{
-        background: '#1a2a3a',
-        border: '1px solid #2d4155',
+        background: 'var(--toast-bg)',
+        border: '1px solid var(--toast-border)',
         borderRadius: '12px',
         padding: '16px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
@@ -128,7 +131,7 @@ function ToastItem({ toast, onRemove }) {
         animation: isExiting ? 'toastExit 0.2s ease forwards' : 'toastEnter 0.3s ease',
         maxWidth: '320px',
       }}>
-        <p style={{ color: '#e8edf2', fontSize: '0.875rem', marginBottom: '12px', lineHeight: 1.5 }}>
+        <p style={{        color: 'var(--toast-text)', fontSize: '0.875rem', marginBottom: '12px', lineHeight: 1.5 }}>
           {toast.message}
         </p>
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
@@ -183,10 +186,10 @@ function ToastItem({ toast, onRemove }) {
       animation: isExiting ? 'toastExit 0.2s ease forwards' : 'toastEnter 0.3s ease',
       boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
     }}>
-      <span style={{ color: style.color, fontWeight: 700, fontSize: '0.9rem', flexShrink: 0 }}>
-        {style.icon}
+      <span style={{ color: style.color, flexShrink: 0, display: 'flex' }}>
+        <Icon name={style.icon} size={18} />
       </span>
-      <span style={{ color: '#e8edf2', fontSize: '0.85rem', flex: 1, lineHeight: 1.4 }}>
+      <span style={{ color: 'var(--toast-text)', fontSize: '0.85rem', flex: 1, lineHeight: 1.4 }}>
         {toast.message}
       </span>
       <button
@@ -194,15 +197,16 @@ function ToastItem({ toast, onRemove }) {
         style={{
           background: 'none',
           border: 'none',
-          color: '#6b8398',
+          color: 'var(--text-muted)',
           cursor: 'pointer',
-          fontSize: '1rem',
-          lineHeight: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           padding: '2px',
           flexShrink: 0,
         }}
       >
-        ✕
+        <Icon name="close" size={14} />
       </button>
     </div>
   );

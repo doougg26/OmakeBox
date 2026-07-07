@@ -7,6 +7,32 @@
   min-height: 100vh;
   padding: $spacing-xl;
   background: $bg-dark;
+  transition: background-color $transition-base;
+  position: relative;
+}
+
+.auth-themeBtn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-full;
+  color: $text-secondary;
+  cursor: pointer;
+  z-index: 10;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $bg-surface;
+    color: $primary-light;
+    border-color: $primary;
+  }
 }
 
 .auth-card {

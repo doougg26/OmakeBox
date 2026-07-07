@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
+import Icon from '../../components/Icon';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import styles from './AuthPage.module.scss';
 
@@ -9,6 +11,7 @@ export default function RegisterPage() {
   const [form, setForm] = useState({ nickname: '', email: '', senha: '' });
   const [error, setError] = useState('');
   const { register } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -34,6 +37,13 @@ export default function RegisterPage() {
 
   return (
     <div className={styles['auth-page']}>
+      <button
+        className={styles['auth-themeBtn']}
+        onClick={toggleTheme}
+        title={theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+      >
+        <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={20} />
+      </button>
       <div className={styles['auth-card']}>
         <h1 className={styles['auth-title']}>
           Omake<span>Box</span>

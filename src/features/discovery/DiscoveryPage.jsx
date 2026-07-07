@@ -346,8 +346,8 @@ export default function DiscoveryPage() {
 
       {!isLoading && (
         <div key={`grid-${category}-${page}-${isSearching ? 'search' : ''}`} className={styles['anime-grid']}>
-          {filteredAnimes.map((anime) => (
-            <AnimeCard key={anime.mal_id} anime={anime} />
+          {filteredAnimes.map((anime, i) => (
+            <AnimeCard key={`${anime.mal_id}-${i}`} anime={anime} />
           ))}
         </div>
       )}
