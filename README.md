@@ -121,13 +121,7 @@ omakeBox/
 │   ├── migrations/              # Migrations do banco
 │   ├── tests/                   # Testes unitários (Jest)
 │   └── server.js                # Entry point
-│
-├── docs/                        # Documentação detalhada
-│   ├── backend.md               # Documentação do backend
-│   └── frontend.md              # Documentação do frontend
-│
-├── README.md                    # Este arquivo
-└── spec OmakeBox.md             # Especificação técnica original
+└──
 ```
 
 ---
@@ -208,8 +202,8 @@ npm run test:coverage
 
 ## 📚 Documentação Detalhada
 
-- **[Documentação do Backend](docs/backend.md)** — Arquitetura MVC + SOLID, endpoints da API, modelos de dados, serviços
-- **[Documentação do Frontend](docs/frontend.md)** — Componentes, páginas, fluxos, contextos, hooks
+- **[Documentação do Backend](https://github.com/doougg26/omakeBox-api/blob/main/backend.md)** — Arquitetura MVC + SOLID, endpoints da API, modelos de dados, serviços
+- **[Documentação do Frontend](https://github.com/doougg26/OmakeBox/blob/main/frontend.md)** — Componentes, páginas, fluxos, contextos, hooks
 
 ---
 
