@@ -176,3 +176,90 @@ img {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+// Custom scrollbar for dark theme
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $border;
+  border-radius: 4px;
+
+  &:hover {
+    background: $border-light;
+  }
+}
+
+// Firefox scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $border $bg-dark;
+}
+
+// Page fade-in animation
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageFadeIn 0.3s ease-out;
+}
+
+// Focus visible for accessibility
+:focus-visible {
+  outline: 2px solid $primary-light;
+  outline-offset: 2px;
+}
+
+// Selection color
+::selection {
+  background: rgba($primary-light, 0.3);
+  color: $text-primary;
+}
+
+// Remove animations for reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// Toast animations
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastExit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}

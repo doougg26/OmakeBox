@@ -4,11 +4,15 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { animeApi, onboardingApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { useDebounce } from '../../hooks/useDebounce';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import ImageWithFallback from '../../components/ImageWithFallback';
+
 import styles from './OnboardingPage.module.scss';
 
 export default function OnboardingPage() {
+  useDocumentTitle('Configurar Perfil');
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [step, setStep] = useState(1); // 1: anime, 2: avatar, 3: done
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAnime, setSelectedAnime] = useState(null);
@@ -127,7 +131,7 @@ export default function OnboardingPage() {
                     }`}
                     onClick={() => handleSelectAnime(anime)}
                   >
-                    <img
+                    <ImageWithFallback
                       src={anime.images?.jpg?.image_url || ''}
                       alt={anime.title}
                     />
@@ -169,7 +173,7 @@ export default function OnboardingPage() {
 
             {selectedAnime && (
               <div className={styles.favoriteDisplay}>
-                <img
+                <ImageWithFallback
                   src={selectedAnime.images?.jpg?.image_url || ''}
                   alt={selectedAnime.title}
                 />
@@ -198,7 +202,7 @@ export default function OnboardingPage() {
                     }`}
                     onClick={() => handleSelectAvatar(char)}
                   >
-                    <img src={char.imagem_url || ''} alt={char.nome} />
+                    <ImageWithFallback src={char.imagem_url || ''} alt={char.nome} />
                     <span>{char.nome}</span>
                   </div>
                 ))}
@@ -229,7 +233,7 @@ export default function OnboardingPage() {
 
             <div className={styles.avatarPreview}>
               {selectedAvatar && (
-                <img src={selectedAvatar.imagem_url || ''} alt={selectedAvatar.nome} />
+                <ImageWithFallback src={selectedAvatar.imagem_url || ''} alt={selectedAvatar.nome} />
               )}
               <span>{selectedAvatar?.nome || 'Avatar selecionado'}</span>
             </div>

@@ -1,7 +1,10 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { trackingApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import ImageWithFallback from '../../components/ImageWithFallback';
 import styles from './TrackingDetailPage.module.scss';
 
 const STATUS_LABELS = {
@@ -23,7 +26,9 @@ const STATUS_COLORS = {
 export default function TrackingDetailPage() {
   const { malId } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['tracking-details', malId],
@@ -52,8 +57,13 @@ export default function TrackingDetailPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-trackings'] });
+      toast.success('Tracking removido');
+      navigate('/tracking');
     },
+    onError: () => toast.error('Erro ao remover tracking'),
   });
+
+  useDocumentTitle(anime?.titulo ? `${anime.titulo} — Detalhes` : 'Detalhes do Tracking');
 
   if (isLoading) {
     return (
@@ -119,7 +129,7 @@ export default function TrackingDetailPage() {
         <div className={styles.mainCol}>
           {/* Hero compacto */}
           <div className={styles.hero}>
-            <img
+            <ImageWithFallback
               className={styles.hero__bg}
               src={anime?.capa_url || ''}
               alt={anime?.titulo}
@@ -237,8 +247,9 @@ export default function TrackingDetailPage() {
             {/* Remover */}
             <button
               className={styles.removeBtn}
-              onClick={() => {
-                if (confirm('Remover este anime do tracking?')) {
+              onClick={async () => {
+                const confirmed = await toast.confirm('Remover este anime do tracking?');
+                if (confirmed) {
                   removeMutation.mutate();
                 }
               }}

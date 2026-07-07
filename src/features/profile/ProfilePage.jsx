@@ -3,6 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { userApi, trackingApi, connectionApi, feedApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import ImageWithFallback from '../../components/ImageWithFallback';
 import SpoilerBlock from '../../components/SpoilerBlock';
 import styles from './ProfilePage.module.scss';
 
@@ -17,9 +20,12 @@ const STATUS_LABELS = {
 export default function ProfilePage() {
   const { nickname } = useParams();
   const { user: currentUser } = useAuth();
+  const toast = useToast();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('tracking');
   const [connectionError, setConnectionError] = useState('');
+
+  useDocumentTitle(nickname ? `Perfil de ${nickname}` : 'Perfil');
 
   const isOwnProfile = currentUser?.nickname === nickname;
 
@@ -95,10 +101,13 @@ export default function ProfilePage() {
       await connectionApi.sendRequest(profile.id);
     },
     onSuccess: () => {
-      setConnectionError('Solicitação enviada!');
+      setConnectionError('');
+      toast.success('Solicitação de conexão enviada!');
     },
     onError: (err) => {
-      setConnectionError(err.response?.data?.error || 'Erro ao enviar solicitação');
+      const msg = err.response?.data?.error || 'Erro ao enviar solicitação';
+      setConnectionError(msg);
+      toast.error(msg);
     },
   });
 
@@ -120,7 +129,9 @@ export default function ProfilePage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-connections'] });
+      toast.success('Conexão removida');
     },
+    onError: () => toast.error('Erro ao remover conexão'),
   });
 
   // Stats do tracking (usa endpoint público para outros, autenticado para próprio)
@@ -332,7 +343,7 @@ export default function ProfilePage() {
                     to={`/anime/${a?.mal_id}`}
                     className={styles.trackingItem}
                   >
-                    <img
+                    <ImageWithFallback
                       className={styles.trackingItem__image}
                       src={a?.capa_url || ''}
                       alt={a?.titulo}
@@ -380,7 +391,7 @@ export default function ProfilePage() {
                     to={`/anime/${item.anime?.mal_id}`}
                     className={styles.reviewCard__header}
                   >
-                    <img
+                    <ImageWithFallback
                       src={item.anime?.capa_url || ''}
                       alt={item.anime?.titulo}
                     />
@@ -472,8 +483,9 @@ export default function ProfilePage() {
                   {isOwnProfile && (
                     <button
                       className={styles.removeConnectionBtn}
-                      onClick={() => {
-                        if (confirm('Remover esta conexão?')) {
+                      onClick={async () => {
+                        const confirmed = await toast.confirm('Remover esta conexão?');
+                        if (confirmed) {
                           removeConnectionMutation.mutate(conn.id);
                         }
                       }}

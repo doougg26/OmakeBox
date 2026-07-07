@@ -1,0 +1,42 @@
+@use '../styles/variables' as *;
+
+.button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: $primary;
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: $shadow-lg;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  animation: btnFadeIn 0.3s ease-out;
+
+  &:hover {
+    background: $primary-light;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@keyframes btnFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

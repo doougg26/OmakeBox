@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { communityApi, trackingApi, translateApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import ImageWithFallback from '../../components/ImageWithFallback';
 import SpoilerBlock from '../../components/SpoilerBlock';
 import styles from './CommunityPage.module.scss';
 
@@ -275,6 +277,8 @@ export default function CommunityPage() {
     }
   }, [anime?.sinopse, translating]);
 
+  useDocumentTitle(anime?.titulo || 'Comunidade');
+
   if (isLoading) {
     return (
       <div className="container page">
@@ -303,7 +307,7 @@ export default function CommunityPage() {
     <div className={styles.community}>
       {/* Hero */}
       <div className={styles.hero}>
-        <img
+        <ImageWithFallback
           className={styles.hero__bg}
           src={anime?.capa_url || ''}
           alt={anime?.titulo}
@@ -384,7 +388,7 @@ export default function CommunityPage() {
                     } ${topRanking === 0 ? styles['charCard--voted'] : ''}`}
                     onClick={() => handleSelectChar(char.mal_id)}
                   >
-                    <img src={char.imagem_url || ''} alt={char.nome} />
+                    <ImageWithFallback src={char.imagem_url || ''} alt={char.nome} />
                     <span className={styles.charCard__name}>{char.nome}</span>
                     <span className={styles.charCard__votes}>
                       {voteCount} {voteCount === 1 ? 'voto' : 'votos'}

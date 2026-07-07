@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { feedApi, animeApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import { useDebounce } from '../../hooks/useDebounce';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import ImageWithFallback from '../../components/ImageWithFallback';
 import SpoilerBlock from '../../components/SpoilerBlock';
 import styles from './FeedPage.module.scss';
 
 export default function FeedPage() {
+  useDocumentTitle('Feed Social');
   const { user, isAuthenticated } = useAuth();
+  const toast = useToast();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [showNewPost, setShowNewPost] = useState(false);
@@ -146,9 +151,13 @@ export default function FeedPage() {
     input.value = '';
   }
 
-  function handleDeletePost(postId) {
-    if (confirm('Remover este post?')) {
-      deletePostMutation.mutate(postId);
+  async function handleDeletePost(postId) {
+    const confirmed = await toast.confirm('Remover este post?');
+    if (confirmed) {
+      deletePostMutation.mutate(postId, {
+        onSuccess: () => toast.success('Post removido'),
+        onError: () => toast.error('Erro ao remover post'),
+      });
     }
   }
 
@@ -404,7 +413,7 @@ export default function FeedPage() {
                   to={`/anime/${post.anime?.mal_id}`}
                   className={styles.feedPost__banner}
                 >
-                  <img src={post.anime.capa_url} alt={post.anime.titulo} />
+                  <ImageWithFallback src={post.anime.capa_url} alt={post.anime.titulo} />
                 </Link>
               )}
 

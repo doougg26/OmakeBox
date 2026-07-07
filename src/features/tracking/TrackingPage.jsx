@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { trackingApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+import ImageWithFallback from '../../components/ImageWithFallback';
 import styles from './TrackingPage.module.scss';
 
 const STATUS_OPTIONS = [
@@ -23,7 +26,9 @@ const STATUS_LABELS = {
 };
 
 export default function TrackingPage() {
+  useDocumentTitle('Meu Tracking');
   const { user } = useAuth();
+  const toast = useToast();
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState('');
 
@@ -91,11 +96,15 @@ export default function TrackingPage() {
     ? trackings.filter((t) => t.tracking?.status === filter)
     : trackings;
 
-  function handleRemove(animeMalId, e) {
+  async function handleRemove(animeMalId, e) {
     e.preventDefault();
     e.stopPropagation();
-    if (confirm('Remover este anime do tracking?')) {
-      removeMutation.mutate(animeMalId);
+    const confirmed = await toast.confirm('Remover este anime do tracking?');
+    if (confirmed) {
+      removeMutation.mutate(animeMalId, {
+        onSuccess: () => toast.success('Anime removido do tracking'),
+        onError: () => toast.error('Erro ao remover anime'),
+      });
     }
   }
 
@@ -190,7 +199,7 @@ export default function TrackingPage() {
                 to={`/anime/${a?.mal_id}`}
                 className={styles.trackCard}
               >
-                <img
+                <ImageWithFallback
                   className={styles.trackImage}
                   src={a?.capa_url || ''}
                   alt={a?.titulo}

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
 import styles from './AuthPage.module.scss';
 
 export default function RegisterPage() {
+  useDocumentTitle('Cadastro');
   const [form, setForm] = useState({ nickname: '', email: '', senha: '' });
   const [error, setError] = useState('');
   const { register } = useAuth();

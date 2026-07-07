@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
 import styles from './NotificationsPage.module.scss';
 
 const NOTIF_LABELS = {
@@ -45,6 +46,7 @@ function formatDate(dateStr) {
 }
 
 export default function NotificationsPage() {
+  useDocumentTitle('Notificações');
   const { isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);

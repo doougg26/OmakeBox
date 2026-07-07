@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { animeApi } from '../../services/api';
 import { useDebounce } from '../../hooks/useDebounce';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
 import AnimeCard from '../../components/AnimeCard';
 import styles from './DiscoveryPage.module.scss';
 
@@ -40,6 +41,7 @@ function getCurrentSeasonLabel() {
 }
 
 export default function DiscoveryPage() {
+  useDocumentTitle('Discovery');
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState('season');
   const [selectedGenre, setSelectedGenre] = useState('');
