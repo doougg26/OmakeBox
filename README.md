@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="frontend/public/logo-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="frontend/public/logo-light.png">
-    <img src="frontend/public/logo-dark.png" alt="OmakeBox Logo" width="120" height="120">
+    <source media="(prefers-color-scheme: dark)" srcset="./public/logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="./public/logo-light.png">
+    <img src="./public/logo-dark.png" alt="OmakeBox Logo" width="120" height="120">
   </picture>
 </p>
 
