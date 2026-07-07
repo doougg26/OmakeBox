@@ -9,6 +9,7 @@ import Avatar from '../../components/Avatar';
 import ImageWithFallback from '../../components/ImageWithFallback';
 import SpoilerBlock from '../../components/SpoilerBlock';
 import EditProfileModal from './EditProfileModal';
+import { safeHref } from '../../utils/sanitizeUrl';
 import styles from './ProfilePage.module.scss';
 
 const STATUS_LABELS = {
@@ -222,7 +223,7 @@ export default function ProfilePage() {
               {profile.links_sociais.map((link, i) => (
                 <a
                   key={i}
-                  href={link.url}
+                  href={safeHref(link.url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.hero__link}
