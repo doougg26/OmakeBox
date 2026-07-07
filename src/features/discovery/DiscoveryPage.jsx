@@ -198,7 +198,11 @@ export default function DiscoveryPage() {
   }, [rawAnimes, minScore, selectedType]);
 
   const hasActiveFilters = selectedGenre || minScore > 0 || selectedType;
-  const hasError = !isSearching && !selectedGenre && category === 'trending' && trendingQuery.error;
+  const hasTrendingError = !isSearching && !selectedGenre && category === 'trending' && trendingQuery.error;
+  const hasSeasonError = !isSearching && !selectedGenre && category === 'season' && seasonQuery.error;
+  const hasSearchError = isSearching && searchQuery_result.error;
+  const hasGenreError = !!selectedGenre && genreQuery.error;
+  const hasError = hasTrendingError || hasSeasonError || hasSearchError || hasGenreError;
 
   function clearFilters() {
     setSelectedGenre('');
@@ -391,7 +395,9 @@ export default function DiscoveryPage() {
 
       {!isLoading && hasError && (
         <div className="error-text">
-          Erro ao carregar animes. Tente novamente mais tarde.
+          {hasSearchError
+            ? 'Serviço de busca temporariamente indisponível. A fonte de dados (MyAnimeList) pode estar inacessível. Tente novamente mais tarde.'
+            : 'Erro ao carregar animes. Tente novamente mais tarde.'}
         </div>
       )}
 
