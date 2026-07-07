@@ -333,20 +333,6 @@
     gap: $spacing-md;
   }
 
-  &__avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: $radius-full;
-    background: $primary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $font-size-sm;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
   &__nickname {
     font-weight: 600;
     font-size: $font-size-sm;
@@ -504,20 +490,6 @@
 .comment {
   display: flex;
   gap: $spacing-sm;
-
-  &__avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: $radius-full;
-    background: $primary-dark;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $font-size-xs;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
 
   &__body {
     flex: 1;

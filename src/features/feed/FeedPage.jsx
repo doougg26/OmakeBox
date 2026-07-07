@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useDebounce } from '../../hooks/useDebounce';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+import Avatar from '../../components/Avatar';
 import ImageWithFallback from '../../components/ImageWithFallback';
 import SpoilerBlock from '../../components/SpoilerBlock';
 import styles from './FeedPage.module.scss';
@@ -369,9 +370,11 @@ export default function FeedPage() {
               {/* Cabeçalho */}
               <div className={styles.feedPost__header}>
                 <div className={styles.feedPost__user}>
-                  <div className={styles.feedPost__avatar}>
-                    {post.user?.nickname?.charAt(0).toUpperCase()}
-                  </div>
+                  <Avatar
+                    src={post.user?.avatar?.imagem_url}
+                    nickname={post.user?.nickname}
+                    size="md"
+                  />
                   <div>
                     <Link
                       to={`/perfil/${post.user?.nickname}`}
@@ -474,9 +477,11 @@ export default function FeedPage() {
                       {activePost?.comments?.length > 0 ? (
                         activePost.comments.map((comment) => (
                           <div key={comment.id} className={styles.comment}>
-                            <div className={styles.comment__avatar}>
-                              {comment.user?.nickname?.charAt(0).toUpperCase()}
-                            </div>
+                            <Avatar
+                              src={comment.user?.avatar?.imagem_url}
+                              nickname={comment.user?.nickname}
+                              size="sm"
+                            />
                             <div className={styles.comment__body}>
                               <div className={styles.comment__header}>
                                 <Link

@@ -5,8 +5,10 @@ import { userApi, trackingApi, connectionApi, feedApi } from '../../services/api
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+import Avatar from '../../components/Avatar';
 import ImageWithFallback from '../../components/ImageWithFallback';
 import SpoilerBlock from '../../components/SpoilerBlock';
+import EditProfileModal from './EditProfileModal';
 import styles from './ProfilePage.module.scss';
 
 const STATUS_LABELS = {
@@ -24,6 +26,7 @@ export default function ProfilePage() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('tracking');
   const [connectionError, setConnectionError] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useDocumentTitle(nickname ? `Perfil de ${nickname}` : 'Perfil');
 
@@ -173,9 +176,11 @@ export default function ProfilePage() {
     <div className={styles.profilePage}>
       {/* Hero do perfil */}
       <div className={styles.hero}>
-        <div className={styles.hero__avatar}>
-          {profile.nickname?.charAt(0).toUpperCase()}
-        </div>
+        <Avatar
+          src={profile.avatar?.imagem_url}
+          nickname={profile.nickname}
+          size="xl"
+        />
         <div className={styles.hero__info}>
           <h1 className={styles.hero__nickname}>{profile.nickname}</h1>
           <p className={styles.hero__meta}>
@@ -235,6 +240,18 @@ export default function ProfilePage() {
                 {connections.length}{' '}
                 {connections.length === 1 ? 'conexão' : 'conexões'}
               </span>
+            </div>
+          )}
+
+          {/* Botão de editar perfil (próprio perfil) */}
+          {isOwnProfile && (
+            <div className={styles.hero__actions}>
+              <button
+                className="btn btn-primary"
+                onClick={() => setShowEditModal(true)}
+              >
+                Editar Perfil
+              </button>
             </div>
           )}
 
@@ -467,9 +484,11 @@ export default function ProfilePage() {
                     to={`/perfil/${conn.user?.nickname}`}
                     className={styles.connectionItem__info}
                   >
-                    <div className={styles.connectionItem__avatar}>
-                      {conn.user?.nickname?.charAt(0).toUpperCase()}
-                    </div>
+                    <Avatar
+                      src={conn.user?.avatar?.imagem_url}
+                      nickname={conn.user?.nickname}
+                      size="sm"
+                    />
                     <div>
                       <div className={styles.connectionItem__nickname}>
                         {conn.user?.nickname}
@@ -499,6 +518,15 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
+
+      {/* Modal de edição de perfil */}
+      {showEditModal && (
+        <EditProfileModal
+          profile={profile}
+          queryClient={queryClient}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
     </div>
   );
 }

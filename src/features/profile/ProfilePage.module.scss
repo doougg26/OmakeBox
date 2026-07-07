@@ -16,20 +16,6 @@
   border-radius: $radius-lg;
   margin-bottom: $spacing-lg;
 
-  &__avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: $radius-full;
-    background: $primary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
   &__info {
     flex: 1;
     min-width: 0;
@@ -415,19 +401,6 @@
     gap: $spacing-md;
     text-decoration: none;
     color: inherit;
-  }
-
-  &__avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: $radius-full;
-    background: $primary-dark;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    color: white;
-    font-size: $font-size-sm;
   }
 
   &__nickname {

@@ -54,19 +54,6 @@
     font-size: $font-size-sm;
   }
 
-  &__avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: $radius-full;
-    background: $primary;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $font-size-sm;
-    font-weight: 700;
-    color: white;
-  }
-
   &__notifBtn {
     position: relative;
     width: 36px;

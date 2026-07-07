@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../context/AuthContext';
 import { notificationApi } from '../services/api';
+import Avatar from './Avatar';
 import styles from './Navbar.module.scss';
 
 export default function Navbar() {
@@ -79,9 +80,11 @@ export default function Navbar() {
                 </span>
               )}
             </NavLink>
-            <div className={styles.navbar__avatar}>
-              {user.nickname.charAt(0).toUpperCase()}
-            </div>
+            <Avatar
+              src={user.avatar?.imagem_url}
+              nickname={user.nickname}
+              size="md"
+            />
             <span>{user.nickname}</span>
             <button className="btn btn-secondary" style={{ fontSize: '0.75rem', padding: '4px 12px' }} onClick={logout}>
               Sair

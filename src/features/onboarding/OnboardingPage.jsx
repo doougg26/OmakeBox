@@ -13,15 +13,14 @@ export default function OnboardingPage() {
   useDocumentTitle('Configurar Perfil');
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [step, setStep] = useState(1); // 1: anime, 2: avatar, 3: done
+  const [step, setStep] = useState(1); // 1: anime, 2: done
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAnime, setSelectedAnime] = useState(null);
-  const [selectedAvatar, setSelectedAvatar] = useState(null);
   const debouncedSearch = useDebounce(searchQuery, 400);
 
   // Redireciona se já configurou
   useEffect(() => {
-    if (user?.anime_favorito_id && user?.avatar_personagem_id) {
+    if (user?.anime_favorito_id) {
       navigate('/discovery', { replace: true });
     }
   }, [user, navigate]);
@@ -47,27 +46,6 @@ export default function OnboardingPage() {
     },
   });
 
-  // Busca opções de avatar
-  const { data: avatarOptions, isLoading: avatarLoading } = useQuery({
-    queryKey: ['avatar-options'],
-    queryFn: async () => {
-      const { data } = await onboardingApi.getAvatarOptions();
-      return data;
-    },
-    enabled: step === 2,
-  });
-
-  // Define avatar
-  const setAvatarMutation = useMutation({
-    mutationFn: async (characterMalId) => {
-      const { data } = await onboardingApi.setAvatar(characterMalId);
-      return data;
-    },
-    onSuccess: () => {
-      setStep(3);
-    },
-  });
-
   function handleSelectAnime(anime) {
     setSelectedAnime(anime);
   }
@@ -75,16 +53,6 @@ export default function OnboardingPage() {
   function handleConfirmAnime() {
     if (selectedAnime) {
       setAnimeMutation.mutate(selectedAnime.mal_id);
-    }
-  }
-
-  function handleSelectAvatar(char) {
-    setSelectedAvatar(char);
-  }
-
-  function handleConfirmAvatar() {
-    if (selectedAvatar) {
-      setAvatarMutation.mutate(selectedAvatar.mal_id);
     }
   }
 
@@ -101,9 +69,12 @@ export default function OnboardingPage() {
 
         {step === 1 && (
           <>
-            <p className={styles.step}>Passo 1 de 2</p>
+            <p className={styles.step}>Passo 1 de 1</p>
             <p className={styles.subtitle}>
               Escolha seu anime favorito para começar
+            </p>
+            <p className={styles.subtitle} style={{ marginTop: 0, fontSize: '0.75rem' }}>
+              Você poderá customizar seu avatar depois nas configurações do perfil.
             </p>
 
             <div className={styles.searchBox}>
@@ -166,77 +137,23 @@ export default function OnboardingPage() {
 
         {step === 2 && (
           <>
-            <p className={styles.step}>Passo 2 de 2</p>
+            <p className={styles.step}>Pronto!</p>
             <p className={styles.subtitle}>
-              Escolha um personagem como avatar
+              Seu anime favorito foi configurado!
+            </p>
+            <p className={styles.subtitle} style={{ marginTop: 0, fontSize: '0.75rem' }}>
+              Você pode editar seu perfil e adicionar um avatar personalizado depois.
             </p>
 
             {selectedAnime && (
-              <div className={styles.favoriteDisplay}>
+              <div className={styles.avatarPreview}>
                 <ImageWithFallback
                   src={selectedAnime.images?.jpg?.image_url || ''}
                   alt={selectedAnime.title}
                 />
-                <div>
-                  <div className={styles['favoriteDisplay__title']}>
-                    {selectedAnime.title}
-                  </div>
-                  <div className={styles['favoriteDisplay__sub']}>
-                    Seu anime favorito
-                  </div>
-                </div>
+                <span>{selectedAnime.title}</span>
               </div>
             )}
-
-            {avatarLoading && <div className="loading"><div className="spinner" /></div>}
-
-            {avatarOptions && avatarOptions.length > 0 && (
-              <div className={styles.avatarGrid}>
-                {avatarOptions.map((char) => (
-                  <div
-                    key={char.id}
-                    className={`${styles.avatarOption} ${
-                      selectedAvatar?.mal_id === char.mal_id
-                        ? styles['avatarOption--selected']
-                        : ''
-                    }`}
-                    onClick={() => handleSelectAvatar(char)}
-                  >
-                    <ImageWithFallback src={char.imagem_url || ''} alt={char.nome} />
-                    <span>{char.nome}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className={styles.actions}>
-              <button
-                className={styles.finishBtn}
-                disabled={!selectedAvatar || setAvatarMutation.isPending}
-                onClick={handleConfirmAvatar}
-              >
-                {setAvatarMutation.isPending ? 'Salvando...' : 'Confirmar Avatar'}
-              </button>
-              <button className={styles.skipBtn} onClick={() => navigate('/discovery')}>
-                Pular por enquanto
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <p className={styles.step}>Pronto!</p>
-            <p className={styles.subtitle}>
-              Seu perfil foi configurado com sucesso
-            </p>
-
-            <div className={styles.avatarPreview}>
-              {selectedAvatar && (
-                <ImageWithFallback src={selectedAvatar.imagem_url || ''} alt={selectedAvatar.nome} />
-              )}
-              <span>{selectedAvatar?.nome || 'Avatar selecionado'}</span>
-            </div>
 
             <div className={styles.actions}>
               <button className={styles.finishBtn} onClick={handleFinish}>

@@ -70,6 +70,16 @@ export const userApi = {
   getPosts: (nickname) => api.get(`/users/${nickname}/posts`),
   getStats: (nickname) => api.get(`/users/${nickname}/stats`),
   updateMe: (data) => api.patch('/users/me', data),
+  updateFavoriteAnime: (malId) => api.post('/users/me/favorite-anime', { malId }),
+  setAvatarUrl: (avatarUrl) => api.post('/users/me/avatar/url', { avatar_url: avatarUrl }),
+  uploadAvatar: (file) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    return api.post('/users/me/avatar/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  removeAvatar: () => api.delete('/users/me/avatar'),
 };
 
 // Anime endpoints
@@ -83,8 +93,6 @@ export const animeApi = {
 // Onboarding endpoints
 export const onboardingApi = {
   setFavoriteAnime: (malId) => api.post('/onboarding/favorite-anime', { malId }),
-  setAvatar: (characterMalId) => api.post('/onboarding/avatar', { characterMalId }),
-  getAvatarOptions: () => api.get('/onboarding/avatar-options'),
 };
 
 // Community endpoints
