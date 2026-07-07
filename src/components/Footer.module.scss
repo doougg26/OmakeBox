@@ -1,0 +1,135 @@
+@use '../styles/variables' as *;
+
+.footer {
+  margin-top: auto;
+  background: $bg-dark;
+  border-top: 1px solid $border;
+  padding: $spacing-2xl $spacing-xl $spacing-lg;
+  transition: background-color $transition-base, border-color $transition-base;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-xl $spacing-md $spacing-md;
+  }
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: $spacing-2xl;
+
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+      gap: $spacing-xl;
+    }
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__logo {
+    height: 36px;
+    width: auto;
+    align-self: flex-start;
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $text-muted;
+    line-height: 1.6;
+    max-width: 300px;
+  }
+
+  &__links {
+    display: flex;
+    gap: $spacing-2xl;
+
+    @media (max-width: $breakpoint-md) {
+      gap: $spacing-xl;
+    }
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__heading {
+    margin: 0 0 $spacing-xs;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: $text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__link {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $primary-light;
+    }
+  }
+
+  &__bottom {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $spacing-lg;
+    margin-top: $spacing-lg;
+    border-top: 1px solid $border;
+
+    @media (max-width: $breakpoint-md) {
+      flex-direction: column;
+      gap: $spacing-sm;
+      text-align: center;
+    }
+  }
+
+  &__copyright {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $text-muted;
+  }
+
+  &__external {
+    color: $primary-light;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__social {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    color: $text-muted;
+    text-decoration: none;
+    transition: all $transition-fast;
+
+    &:hover {
+      color: $primary-light;
+      background: rgba($primary-rgb, 0.1);
+    }
+  }
+}

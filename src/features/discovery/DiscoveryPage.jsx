@@ -6,6 +6,57 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 import AnimeCard from '../../components/AnimeCard';
 import styles from './DiscoveryPage.module.scss';
 
+const JIKAN_GENRES = [
+  // ═══ Mais populares (sempre visíveis como pills) ═══
+  { mal_id: 1, name: 'Ação' },
+  { mal_id: 2, name: 'Aventura' },
+  { mal_id: 4, name: 'Comédia' },
+  { mal_id: 8, name: 'Drama' },
+  { mal_id: 10, name: 'Fantasia' },
+  { mal_id: 22, name: 'Romance' },
+  { mal_id: 36, name: 'Slice of Life' },
+  { mal_id: 24, name: 'Ficção Científica' },
+  { mal_id: 27, name: 'Shounen' },
+  { mal_id: 42, name: 'Seinen' },
+  { mal_id: 14, name: 'Terror' },
+  // ═══ Populares (aparecem ao expandir) ═══
+  { mal_id: 41, name: 'Suspense' },
+  { mal_id: 37, name: 'Sobrenatural' },
+  { mal_id: 17, name: 'Isekai' },
+  { mal_id: 18, name: 'Mecha' },
+  { mal_id: 30, name: 'Esportes' },
+  { mal_id: 7, name: 'Mistério' },
+  { mal_id: 40, name: 'Psicológico' },
+  { mal_id: 6, name: 'Demônios' },
+  { mal_id: 31, name: 'Super Poderes' },
+  { mal_id: 23, name: 'Escolar' },
+  { mal_id: 19, name: 'Musical' },
+  { mal_id: 13, name: 'Histórico' },
+  { mal_id: 21, name: 'Samurai' },
+  { mal_id: 39, name: 'Policial' },
+  { mal_id: 38, name: 'Militares' },
+  { mal_id: 11, name: 'Game' },
+  { mal_id: 9, name: 'Ecchi' },
+  { mal_id: 35, name: 'Harem' },
+  { mal_id: 25, name: 'Shoujo' },
+  { mal_id: 43, name: 'Josei' },
+  { mal_id: 32, name: 'Vampiros' },
+  { mal_id: 48, name: 'Premiado' },
+  { mal_id: 15, name: 'Infantil' },
+  { mal_id: 20, name: 'Paródia' },
+  { mal_id: 46, name: 'Aventura na Faculdade' },
+  { mal_id: 47, name: 'Gourmet' },
+  { mal_id: 49, name: 'Trabalho' },
+  { mal_id: 29, name: 'Espaço' },
+  { mal_id: 3, name: 'Carros' },
+  // ═══ Nicho ═══
+  { mal_id: 26, name: 'Shoujo Ai' },
+  { mal_id: 28, name: 'Shounen Ai' },
+  { mal_id: 5, name: 'Dementia' },
+  { mal_id: 12, name: 'Hentai' },
+  { mal_id: 16, name: 'Japonês' },
+];
+
 const CATEGORIES = [
   { id: 'season', label: 'Temporada' },
   { id: 'trending', label: 'Em Alta' },
@@ -45,6 +96,7 @@ export default function DiscoveryPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState('season');
   const [selectedGenre, setSelectedGenre] = useState('');
+  const [showAllGenres, setShowAllGenres] = useState(false);
   const [minScore, setMinScore] = useState(0);
   const [selectedType, setSelectedType] = useState('');
   const [page, setPage] = useState(1);
@@ -60,7 +112,7 @@ export default function DiscoveryPage() {
     queryKey: ['anime-trending', page],
     queryFn: async () => {
       const { data } = await animeApi.getTrending(page);
-      return { animes: data.data || [], pagination: data.pagination || {} };
+      return { animes: data.data || [], pagination: data.pagination || {}, _stale: !!data._stale };
     },
     staleTime: 5 * 60 * 1000,
     enabled: !isSearching && category === 'trending',
@@ -71,7 +123,7 @@ export default function DiscoveryPage() {
     queryKey: ['anime-season', page],
     queryFn: async () => {
       const { data } = await animeApi.getSeason(undefined, undefined, page);
-      return { animes: data.data || [], pagination: data.pagination || {} };
+      return { animes: data.data || [], pagination: data.pagination || {}, _stale: !!data._stale };
     },
     staleTime: 5 * 60 * 1000,
     enabled: !isSearching && category === 'season',
@@ -83,16 +135,33 @@ export default function DiscoveryPage() {
     queryFn: async () => {
       if (!debouncedSearch) return null;
       const { data } = await animeApi.search(debouncedSearch, page);
-      return { animes: data.data || [], pagination: data.pagination || {} };
+      return { animes: data.data || [], pagination: data.pagination || {}, _stale: !!data._stale };
     },
     enabled: isSearching,
     staleTime: 60 * 1000,
   });
 
+  // Genre filter via API (busca todos os animes do gênero, sem limitação de página)
+  const genreQuery = useQuery({
+    queryKey: ['anime-by-genre', selectedGenre, page],
+    queryFn: async () => {
+      const { data } = await animeApi.getByGenre(selectedGenre, page);
+      return { animes: data.data || [], pagination: data.pagination || {}, _stale: !!data._stale };
+    },
+    enabled: !!selectedGenre,
+    staleTime: 5 * 60 * 1000,
+  });
+
   // Determine current data source
   let currentData, isLoading, sectionTitle, pagination;
 
-  if (isSearching) {
+  if (!!selectedGenre) {
+    // Quando um gênero é selecionado, busca da API diretamente (qualquer página)
+    currentData = genreQuery.data;
+    isLoading = genreQuery.isLoading;
+    const genreName = JIKAN_GENRES.find(g => g.mal_id === parseInt(selectedGenre))?.name || 'Gênero';
+    sectionTitle = `Gênero: ${genreName}`;
+  } else if (isSearching) {
     currentData = searchQuery_result.data;
     isLoading = searchQuery_result.isLoading;
     sectionTitle = `Resultados para: "${debouncedSearch}"`;
@@ -107,34 +176,15 @@ export default function DiscoveryPage() {
   }
 
   const rawAnimes = currentData?.animes || [];
+  const isStale = currentData?._stale || false;
   pagination = currentData?.pagination;
   const totalPages = pagination?.last_visible_page || 1;
   const hasNextPage = pagination?.has_next_page || false;
   const totalItems = pagination?.items?.total;
 
-  // Extract unique genres from results
-  const genreOptions = useMemo(() => {
-    const genreMap = new Map();
-    for (const anime of rawAnimes) {
-      if (anime.genres) {
-        for (const g of anime.genres) {
-          if (!genreMap.has(g.mal_id)) {
-            genreMap.set(g.mal_id, g.name);
-          }
-        }
-      }
-    }
-    return [{ mal_id: '', name: 'Todos os gêneros' }, ...Array.from(genreMap, ([id, name]) => ({ mal_id: id, name }))];
-  }, [rawAnimes]);
-
-  // Apply filters
+  // Apply filters (sem filtro de gênero — agora é servidor-side via API)
   const filteredAnimes = useMemo(() => {
     let result = rawAnimes;
-
-    if (selectedGenre) {
-      const genreId = parseInt(selectedGenre, 10);
-      result = result.filter((a) => a.genres?.some((g) => g.mal_id === genreId));
-    }
 
     if (minScore > 0) {
       result = result.filter((a) => a.score && a.score >= minScore);
@@ -145,10 +195,10 @@ export default function DiscoveryPage() {
     }
 
     return result;
-  }, [rawAnimes, selectedGenre, minScore, selectedType]);
+  }, [rawAnimes, minScore, selectedType]);
 
   const hasActiveFilters = selectedGenre || minScore > 0 || selectedType;
-  const hasError = !isSearching && category === 'trending' && trendingQuery.error;
+  const hasError = !isSearching && !selectedGenre && category === 'trending' && trendingQuery.error;
 
   function clearFilters() {
     setSelectedGenre('');
@@ -160,15 +210,6 @@ export default function DiscoveryPage() {
     setCategory(newCategory);
     clearFilters();
   }
-
-  // Reset genre if it no longer exists in current data
-  useEffect(() => {
-    if (rawAnimes.length > 0 && selectedGenre) {
-      const genreId = parseInt(selectedGenre, 10);
-      const exists = rawAnimes.some((a) => a.genres?.some((g) => g.mal_id === genreId));
-      if (!exists) setSelectedGenre('');
-    }
-  }, [rawAnimes, selectedGenre]);
 
   // Generate page numbers to display
   const pageNumbers = useMemo(() => {
@@ -243,17 +284,31 @@ export default function DiscoveryPage() {
         <div className={styles.filterBar}>
           <div className={styles.filterGroup}>
             <label className={styles.filterLabel}>Gênero</label>
-            <select
-              className={styles.filterSelect}
-              value={selectedGenre}
-              onChange={(e) => setSelectedGenre(e.target.value)}
-            >
-              {genreOptions.map((g) => (
-                <option key={g.mal_id} value={g.mal_id}>
+            <div className={styles.genrePills}>
+              <button
+                className={`${styles.filterPill} ${!selectedGenre ? styles['filterPill--active'] : ''}`}
+                onClick={() => { setSelectedGenre(''); setShowAllGenres(false); }}
+              >
+                Todos
+              </button>
+              {(showAllGenres ? JIKAN_GENRES : JIKAN_GENRES.slice(0, 11)).map((g) => (
+                <button
+                  key={g.mal_id}
+                  className={`${styles.filterPill} ${selectedGenre === String(g.mal_id) ? styles['filterPill--active'] : ''}`}
+                  onClick={() => setSelectedGenre(selectedGenre === String(g.mal_id) ? '' : String(g.mal_id))}
+                >
                   {g.name}
-                </option>
+                </button>
               ))}
-            </select>
+              {JIKAN_GENRES.length > 11 && (
+                <button
+                  className={styles.genreToggle}
+                  onClick={() => setShowAllGenres(!showAllGenres)}
+                >
+                  {showAllGenres ? '− Mostrar menos' : `+${JIKAN_GENRES.length - 11} Mais`}
+                </button>
+              )}
+            </div>
           </div>
 
           <div className={styles.filterGroup}>
@@ -291,6 +346,14 @@ export default function DiscoveryPage() {
               Limpar filtros
             </button>
           )}
+        </div>
+      )}
+
+      {/* Stale cache warning */}
+      {isStale && !isLoading && (
+        <div className={styles.staleBanner}>
+          <span className={styles.staleBanner__icon}>⚠️</span>
+          <span>Dados podem estar desatualizados — a Jikan API está temporariamente indisponível</span>
         </div>
       )}
 

@@ -4,6 +4,7 @@ import api from '../../services/api';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import Icon from '../../components/Icon';
 import ImageWithFallback from '../../components/ImageWithFallback';
+import Avatar from '../../components/Avatar';
 import styles from './StatsPage.module.scss';
 
 export default function StatsPage() {
@@ -129,17 +130,11 @@ export default function StatsPage() {
               {stats?.most_episodes_user ? (
                 <div className={styles.featured}>
                   <div className={styles.avatarWrapper}>
-                    {stats.most_episodes_user.user?.avatar_url ? (
-                      <img
-                        src={stats.most_episodes_user.user.avatar_url}
-                        alt={stats.most_episodes_user.user.nickname}
-                        className={styles.avatar}
-                      />
-                    ) : (
-                      <div className={styles.avatarFallback}>
-                        {stats.most_episodes_user.user?.nickname?.charAt(0).toUpperCase()}
-                      </div>
-                    )}
+                    <Avatar
+                      src={stats.most_episodes_user.user?.avatar_url}
+                      nickname={stats.most_episodes_user.user?.nickname}
+                      size="lg"
+                    />
                   </div>
                   <strong className={styles.featuredName}>
                     {stats.most_episodes_user.user?.nickname}
@@ -251,17 +246,11 @@ export default function StatsPage() {
               {stats?.most_reviews_user ? (
                 <div className={styles.featured}>
                   <div className={styles.avatarWrapper}>
-                    {stats.most_reviews_user.user?.avatar_url ? (
-                      <img
-                        src={stats.most_reviews_user.user.avatar_url}
-                        alt={stats.most_reviews_user.user.nickname}
-                        className={styles.avatar}
-                      />
-                    ) : (
-                      <div className={styles.avatarFallback}>
-                        {stats.most_reviews_user.user?.nickname?.charAt(0).toUpperCase()}
-                      </div>
-                    )}
+                    <Avatar
+                      src={stats.most_reviews_user.user?.avatar_url}
+                      nickname={stats.most_reviews_user.user?.nickname}
+                      size="lg"
+                    />
                   </div>
                   <strong className={styles.featuredName}>
                     {stats.most_reviews_user.user?.nickname}

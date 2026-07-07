@@ -87,6 +87,7 @@ export const animeApi = {
   getTrending: (page = 1) => api.get(`/anime/trending?page=${page}`),
   search: (query, page = 1) => api.get(`/anime/search?q=${encodeURIComponent(query)}&page=${page}`),
   getSeason: (year, season, page = 1) => api.get(`/anime/season?page=${page}&year=${year || ''}&season=${season || ''}`),
+  getByGenre: (genreId, page = 1) => api.get(`/anime/by-genre?genre=${genreId}&page=${page}`),
   getById: (id) => api.get(`/anime/${id}`),
 };
 

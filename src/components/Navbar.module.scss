@@ -35,14 +35,34 @@
   }
 
   &__brand {
-    font-size: $font-size-xl;
-    font-weight: 800;
-    color: $primary-light;
     text-decoration: none;
-    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__brandText {
+    font-size: $font-size-base;
+    font-weight: 700;
+    color: $primary-light;
+    letter-spacing: -0.3px;
 
     span {
       color: $secondary;
+    }
+
+    @media (max-width: $breakpoint-md) {
+      display: none;
+    }
+  }
+
+  &__logo {
+    height: 58px;
+    width: auto;
+    display: block;
+
+    @media (max-width: $breakpoint-md) {
+      height: 36px;
     }
   }
 

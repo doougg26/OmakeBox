@@ -3,8 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { ThemeProvider } from './context/ThemeContext';
-import Navbar from './components/Navbar';
 import BackToTop from './components/BackToTop';
+import PageLayout from './components/PageLayout';
 import PrivateRoute from './routes/PrivateRoute';
 import LoginPage from './features/auth/LoginPage';
 import RegisterPage from './features/auth/RegisterPage';
@@ -37,8 +37,8 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/discovery" element={<><Navbar /><DiscoveryPage /></>} />
-            <Route path="/anime/:id" element={<><Navbar /><CommunityPage /></>} />
+            <Route path="/discovery" element={<PageLayout><DiscoveryPage /></PageLayout>} />
+            <Route path="/anime/:id" element={<PageLayout><CommunityPage /></PageLayout>} />
             <Route
               path="/onboarding"
               element={
@@ -51,8 +51,7 @@ export default function App() {
               path="/tracking"
               element={
                 <PrivateRoute>
-                  <Navbar />
-                  <TrackingPage />
+                  <PageLayout><TrackingPage /></PageLayout>
                 </PrivateRoute>
               }
             />
@@ -60,20 +59,18 @@ export default function App() {
               path="/tracking/:malId/details"
               element={
                 <PrivateRoute>
-                  <Navbar />
-                  <TrackingDetailPage />
+                  <PageLayout><TrackingDetailPage /></PageLayout>
                 </PrivateRoute>
               }
             />
-            <Route path="/perfil/:nickname" element={<><Navbar /><ProfilePage /></>} />
-            <Route path="/stats" element={<><Navbar /><StatsPage /></>} />
-            <Route path="/feed" element={<><Navbar /><FeedPage /></>} />
+            <Route path="/perfil/:nickname" element={<PageLayout><ProfilePage /></PageLayout>} />
+            <Route path="/stats" element={<PageLayout><StatsPage /></PageLayout>} />
+            <Route path="/feed" element={<PageLayout><FeedPage /></PageLayout>} />
             <Route
               path="/notifications"
               element={
                 <PrivateRoute>
-                  <Navbar />
-                  <NotificationsPage />
+                  <PageLayout><NotificationsPage /></PageLayout>
                 </PrivateRoute>
               }
             />

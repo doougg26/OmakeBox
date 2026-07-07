@@ -33,7 +33,12 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.navbar__left}>
         <Link to="/discovery" className={styles.navbar__brand} onClick={closeMenu}>
-          Omake<span>Box</span>
+          <img
+            src={theme === 'dark' ? '/logo-dark.png' : '/logo-light.png'}
+            alt="OmakeBox"
+            className={styles.navbar__logo}
+          />
+          <span className={styles.navbar__brandText}>Omake<span>Box</span></span>
         </Link>
 
         <div className={`${styles.navbar__links} ${menuOpen ? styles['navbar__links--open'] : ''}`}>

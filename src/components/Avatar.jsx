@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './Avatar.module.scss';
 
+const PLACEHOLDER = '/avatar-placeholder.png';
+
 export default function Avatar({
   src,
   nickname,
@@ -10,12 +12,12 @@ export default function Avatar({
 }) {
   const [imgError, setImgError] = useState(false);
 
-  const hasImage = src && !imgError;
-  const initial = nickname?.charAt(0)?.toUpperCase() || '?';
+  const imageSrc = src && !imgError ? src : PLACEHOLDER;
 
   const sizeClass = styles[size] || styles.md;
 
   function handleError() {
+    if (imgError) return; // evita loop se o placeholder também falhar
     setImgError(true);
   }
 
@@ -27,17 +29,13 @@ export default function Avatar({
       tabIndex={onClick ? 0 : undefined}
       title={nickname || ''}
     >
-      {hasImage ? (
-        <img
-          src={src}
-          alt={nickname || ''}
-          className={styles.image}
-          onError={handleError}
-          loading="lazy"
-        />
-      ) : (
-        <span className={styles.initials}>{initial}</span>
-      )}
+      <img
+        src={imageSrc}
+        alt={nickname || 'Avatar'}
+        className={styles.image}
+        onError={handleError}
+        loading="lazy"
+      />
     </div>
   );
 }
